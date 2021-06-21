@@ -1,10 +1,13 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import Users from './users/Users.jsx';
+import store from './store.js';
 
 const App = () => {
   return (
-    <div>
-      Hello
-    </div>
+    <Provider store={store}>
+      <Users />
+    </Provider>
   );
 };
 
