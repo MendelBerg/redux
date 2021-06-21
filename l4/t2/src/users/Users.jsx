@@ -4,7 +4,6 @@ import * as userActions from './users.actions.js';
 
 class Users extends Component {
   onUserCreate = () => {
-    console.log('here');
     const id = Math.round(Math.random() * 1000000);
     const newUser = {
       id,
