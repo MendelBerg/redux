@@ -13,6 +13,7 @@ class SearchField extends Component {
   };
 
   handleUserSearch = () => {
+    this.props.showSpinner();
     this.props.fetchUserData(this.state.userName);
   };
 
@@ -34,10 +35,12 @@ class SearchField extends Component {
 }
 
 SearchField.propTypes = {
+  showSpinner: PropTypes.func.isRequired,
   fetchUserData: PropTypes.func.isRequired,
 };
 
 const mapDispatch = {
+  showSpinner: usersActions.showSpinner,
   fetchUserData: usersActions.fetchUserData,
 };
 
