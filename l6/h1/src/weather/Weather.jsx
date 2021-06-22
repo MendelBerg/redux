@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import * as weatherActions from './weather.actions.js';
 import { weatherDataSelector } from './weather.selectors.js';
 
-const Weather = ({ title, fetchWeatherData, weather }) => {
+const Weather = ({ title, getWeatherData, weather }) => {
   if (!weather) {
-    fetchWeatherData();
+    getWeatherData();
     return null;
   }
   return (
@@ -25,11 +25,11 @@ const Weather = ({ title, fetchWeatherData, weather }) => {
 };
 
 Weather.propTypes = {
-  fetchWeatherData: PropTypes.func.isRequired,
+  getWeatherData: PropTypes.func.isRequired,
 };
 
 const mapDispatch = {
-  fetchWeatherData: weatherActions.fetchWeatherData,
+  getWeatherData: weatherActions.getWeatherData,
 };
 
 const mapState = state => {
