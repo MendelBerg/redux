@@ -3,10 +3,9 @@ import Task from './Task.jsx';
 import PropTypes from 'prop-types';
 
 const TasksList = ({ tasks, handleTaskStatusChange, handleTaskDelete }) => {
-  const sortedList = [...tasks].sort((a, b) => a.done - b.done);
   return (
     <ul className="list">
-      {sortedList.map(task => (
+      {tasks.map(task => (
         <Task
           key={task.id}
           {...task}
@@ -25,7 +24,9 @@ TasksList.propTypes = {
       done: PropTypes.bool,
       id: PropTypes.string,
     }),
-  ),
+  ).isRequired,
+  handleTaskStatusChange: PropTypes.func.isRequired,
+  handleTaskDelete: PropTypes.func.isRequired,
 };
 
 export default TasksList;

@@ -1,50 +1,26 @@
 import React, { Component } from 'react';
 import TasksList from './TasksList.jsx';
-import { createTask, updateTask, deleteTask } from '../tasksGateway.js';
 import CreateTaskInput from './CreateTaskInput.jsx';
 import { connect } from 'react-redux';
 import * as tasksActions from '../tasks.actions';
 import PropTypes from 'prop-types';
-import { tasksListSelector } from '../tasks.selectors';
+import { sortedTasksListSelector } from '../tasks.selectors';
 
 class TodoList extends Component {
   componentDidMount() {
     this.props.getTaskList();
   }
 
-  onCreate = text => {
-    const newTask = {
-      text,
-      done: false,
-    };
-
-    createTask(newTask).then(() => this.fetchTasks());
-  };
-
-  handleTaskStatusChange = id => {
-    const { done, text } = this.state.tasks.find(task => task.id === id);
-    const updatedTask = {
-      text,
-      done: !done,
-    };
-
-    updateTask(id, updatedTask).then(() => this.fetchTasks());
-  };
-
-  handleTaskDelete = id => {
-    deleteTask(id).then(() => this.fetchTasks());
-  };
-
   render() {
     return (
       <>
         <h1 className="title">Todo List</h1>
         <main className="todo-list">
-          <CreateTaskInput onCreate={this.onCreate} />
+          <CreateTaskInput onCreate={this.props.createTask} />
           <TasksList
             tasks={this.props.tasks}
-            handleTaskDelete={this.handleTaskDelete}
-            handleTaskStatusChange={this.handleTaskStatusChange}
+            handleTaskDelete={this.props.deleteTask}
+            handleTaskStatusChange={this.props.updateTask}
           />
         </main>
       </>
@@ -53,17 +29,23 @@ class TodoList extends Component {
 }
 
 TodoList.propTypes = {
-  getTaskList: PropTypes.func.isRequired,
   tasks: PropTypes.arrayOf(PropTypes.shape()),
+  getTaskList: PropTypes.func.isRequired,
+  updateTask: PropTypes.func.isRequired,
+  deleteTask: PropTypes.func.isRequired,
+  createTask: PropTypes.func.isRequired,
 };
 
 const mapDispatch = {
   getTaskList: tasksActions.getTaskList,
+  updateTask: tasksActions.updateTask,
+  deleteTask: tasksActions.deleteTask,
+  createTask: tasksActions.createTask,
 };
 
 const mapState = state => {
   return {
-    tasks: tasksListSelector(state),
+    tasks: sortedTasksListSelector(state),
   };
 };
 
